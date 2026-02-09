@@ -1,0 +1,27 @@
+// You are given an array of integers nums of length n.
+
+// The cost of an array is the value of its first element. For example, the cost of [1,2,3] is 1 while the cost of [3,4,1] is 3.
+
+// You need to divide nums into 3 disjoint contiguous subarrays.
+
+// Return the minimum possible sum of the cost of these subarrays.
+
+    class Solution {
+    public:
+
+        int minCost(vector<int> &nums, int n, int indx, int k) {
+            if(k == 0) return 0;         
+            if(indx == n) return 1e9;   
+
+            int mino = 1e9;
+            for(int j = indx; j < n; j++) 
+                mino = min(mino, nums[j] + minCost(nums, n, j+1, k-1));
+
+            return mino;
+        }
+
+        int minimumCost(vector<int>& nums) {
+            int first = nums[0];
+            return first + minCost(nums, nums.size(), 1, 2);
+        }
+    };
