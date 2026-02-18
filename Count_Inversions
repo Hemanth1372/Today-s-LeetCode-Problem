@@ -1,0 +1,54 @@
+// Given an array of integers arr[]. You have to find the Inversion Count of the array. 
+// Note : Inversion count is the number of pairs of elements (i, j) such that i < j and arr[i] > arr[j].
+
+
+
+class Solution {
+  public:
+  
+    void merge(vector<int> &arr, int i, int mid, int j, int &cnt) {
+        vector<int> res;
+        int a=i, b=mid+1;
+        while(a <= mid && b <= j) {
+            if(arr[a] <= arr[b]) {
+                res.push_back(arr[a]);
+                a++;
+            }
+            else {
+                cnt+=(mid-a+1);
+                res.push_back(arr[b]);
+                b++;
+            }
+        }
+        
+        
+        while(a <= mid) {
+            res.push_back(arr[a]);
+            a++;
+        }
+        while(b <= j) {
+            res.push_back(arr[b]);
+            b++;
+        }
+        
+        for(int a=0;a<res.size();a++) arr[i+a]=res[a];
+        
+        return ;
+    }
+    
+    void mergesort(vector<int> &arr, int i, int j, int &cnt) {
+        int mid = (i+j)/2;
+        if(i < j) {
+            mergesort(arr, i, mid, cnt);
+            mergesort(arr, mid+1, j, cnt);
+            merge(arr, i, mid, j, cnt);
+        } 
+    }
+  
+    int inversionCount(vector<int> &arr) {
+        int n=arr.size();
+        int cnt=0;
+        mergesort(arr, 0, n-1, cnt);
+        return cnt;
+    }
+};  
