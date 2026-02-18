@@ -1,0 +1,41 @@
+You are given an array coins[], where each element represents a coin of 
+a different denomination, and a target value sum. You have an unlimited 
+supply of each coin type {coins1, coins2, ..., coinsm}.
+
+Your task is to determine the minimum number of coins needed to obtain the 
+target sum. If it is not possible to form the sum using the given coins, return -1.
+
+
+class Solution {
+  public:
+    int minimumCoins(vector<int> &coins, int indx, int sum, vector<vector<int>> &dp) {
+        
+        if(sum == 0) return 0;
+        
+        if(indx == 0) {
+            if(sum % coins[0] == 0) return sum / coins[0];
+            else return 1e9;
+        }
+        
+        if(dp[indx][sum] != -1) 
+            return dp[indx][sum];
+        
+        int notPick = minimumCoins(coins, indx-1, sum, dp);
+        
+        int pick = 1e9;
+        if(coins[indx] <= sum)
+            pick = 1 + minimumCoins(coins, indx, sum - coins[indx], dp);
+        
+        return dp[indx][sum] = min(pick, notPick);
+    }
+    
+    int minCoins(vector<int> &coins, int sum) {
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int> (sum+1, -1));
+        
+        int ans = minimumCoins(coins, n-1, sum, dp);
+        
+        if(ans >= 1e9) return -1;
+        return ans;
+    }
+};
