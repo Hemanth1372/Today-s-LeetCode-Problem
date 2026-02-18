@@ -1,0 +1,44 @@
+Given an undirected graph with V vertices. We say two vertices u and v belong to a 
+single province if there is a path from u to v or v to u. Your task is to find the number 
+of provinces.
+
+Note: A province is a group of directly or indirectly connected cities and no other cities 
+outside of the group.
+
+
+// User function Template for C++
+
+class Solution {
+  public:
+    
+    void dfs(vector<vector<int>> &adjList, int node, vector<int> &visited) {
+        visited[node]=1;
+        for(int i : adjList[node]){
+            if(!visited[i])
+                dfs(adjList, i, visited);
+        }
+        
+        return ;
+    }
+  
+    int numProvinces(vector<vector<int>> adj, int V) {
+        vector<vector<int>> adjList(V);
+        for(int i=0;i<V;i++) {
+            for(int j=0;j<V;j++) {
+                if(adj[i][j] == 1) 
+                    adjList[i].emplace_back(j);
+            }
+        }
+        
+        int cnt=0;
+        vector<int> visited(V, 0);
+        for(int i=0;i<V;i++) {
+            if(!visited[i]) {
+                cnt++;
+                dfs(adjList, i, visited);
+            }
+        }
+        
+        return cnt;
+    }
+};
