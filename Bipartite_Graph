@@ -1,0 +1,48 @@
+Problem Statement: Given an adjacency list of a graph adj of V no. of vertices 
+having 0 based index. Check whether the graph is bipartite or not.
+
+If we are able to colour a graph with two colours such that no adjacent nodes 
+have the same colour, it is called a bipartite graph.
+
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+  int n,m;
+  cin>>n>>m;
+  vector<vector<int>> adj(n);
+  for(int i=0;i<m;i++) {
+    int u, v;
+    cin>>u>>v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+  
+  vector<int> visited(n), colored(n);
+  int color=0;
+  
+  queue<pair<int,int>> q;
+  q.push({0, color});
+  while(!q.empty()) {
+    int n=q.size();
+    for(int i=0;i<n;i++){ 
+      auto it=q.front();
+      q.pop();
+      int node=it.first;
+      int col=it.second;
+      for(auto it : adj[node]){
+         if(!visited[i]) {
+          visited[i]=1;
+          color[i]=col;
+          q.push({it, 1-col});
+        } else {
+          if(col != color) continue;
+          else return 0;
+        }
+      }
+    }
+  }
+  
+  
+  return 0;
+}
+
