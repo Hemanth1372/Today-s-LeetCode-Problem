@@ -1,0 +1,56 @@
+Problem Statement: Given an undirected Graph consisting of V vertices numbered from 0 to V-1 and E edges. 
+The ith edge is represented by [ai,bi], denoting a edge between vertex ai and bi. We say two vertices u 
+and v belong to a same component if there is a path from u to v or v to u. Find the number of connected 
+components in the graph.
+
+A connected component is a subgraph of a graph in which there exists a path between any two vertices, and 
+no vertex of the subgraph shares an edge with a vertex outside of the subgraph.
+
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+  int n, m;
+  cin>>n>>m;
+  vector<int> res;
+  vector<vector<int>> adj(n);
+  for(int i=0;i<m;i++) {
+    int u,v;
+    cin>>u>>v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+  
+  int completed=0;
+  queue<int> q;
+  vector<int> visited(n);
+  while(completed<n) {
+    int unvisited=-1;
+    for(int i=0;i<n;i++) {
+      if(visited[i]==0) {
+        unvisited=i;
+        break;
+      }
+    }
+    if(unvisited==-1) break;
+    q.push(unvisited);
+    while(!q.empty()) {
+      int size=q.size();
+      for(int i=0;i<size;i++) {
+        int node=q.front();
+        q.pop();
+        
+        if(!visited[node]) {
+          res.push_back(node);
+          q.push(node);
+          completed++;
+          visited[node]=1;
+        }
+      }
+    }
+  }
+  
+  for(int i : res) cout<<i<<" ";
+  cout<<endl;
+  cout<<"Done"<<endl;
+  return 0;
+}
