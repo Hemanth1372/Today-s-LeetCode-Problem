@@ -1,0 +1,29 @@
+You are given a string s consisting of lowercase characters and an integer k, You have to count 
+all possible substrings that have exactly k distinct characters.
+
+class Solution {
+  public:
+    
+    int count(string &s, int k) {
+        if(k-1 < 0) return 0;
+        int i=0, j=0, n=s.size(), res=0;
+        unordered_map<char, int> mp;
+        while(j < n) {
+            mp[s[j]]++;
+            while(i < j && mp.size() > k) {
+                mp[s[i]]--;
+                if(mp[s[i]] == 0) mp.erase(s[i]);
+                i += 1;
+            }
+            
+            res += (j-i+1);
+            j++;
+        }
+        
+        return res;
+    }
+  
+    int countSubstr(string& s, int k) {
+        return count(s, k) - count(s, k-1);
+    }
+};
