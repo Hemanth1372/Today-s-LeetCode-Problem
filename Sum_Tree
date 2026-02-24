@@ -1,0 +1,35 @@
+Given a Binary Tree. Check for the Sum Tree for every node except the leaf node. 
+Return true if it is a Sum Tree otherwise, return false.
+
+A SumTree is a Binary Tree where the value of a node is equal to the sum of the nodes present in 
+its left subtree and right subtree. An empty tree is also a Sum Tree as the sum of an empty tree can
+be considered to be 0. A leaf node is also considered a Sum Tree.
+
+
+/*  Tree node
+struct Node
+{
+    int data;
+    Node* left, * right;
+}; */
+
+// Should return true if tree is Sum Tree, else false
+class Solution {
+  public:
+    bool isLeaf(Node* root) {
+        return root->left == NULL && root->right == NULL;
+    }
+    
+    int sum(Node* root) {
+        if(!root) return 0;
+        if(isLeaf(root)) return root->data;
+        int lh = sum(root->left);
+        int rh = sum(root->right);
+        if(lh + rh == root->data) return 2*root->data;
+        else return -1;
+    }
+  
+    bool isSumTree(Node* root) {
+        return sum(root) == -1 ? false : true;
+    }
+};
