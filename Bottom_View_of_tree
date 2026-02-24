@@ -1,0 +1,45 @@
+You are given the root of a binary tree, and your task is to return its bottom view. 
+The bottom view of a binary tree is the set of nodes visible when the tree is viewed from the bottom.
+
+Note: If there are multiple bottom-most nodes for a horizontal distance from the root, 
+then the latter one in the level order traversal is considered.
+
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int x) {
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> bottomView(Node *root) {
+        if(!root) return {};
+        map<int, int> mp;
+        vector<int> res;
+        queue<pair<int, Node*>> q;
+        q.push({0, root});
+        while(!q.empty()) {
+            auto it = q.front();
+            q.pop();
+            
+            Node* n=it.second;
+            int y=it.first;
+            
+            mp[y]=n->data;
+            
+            if(n->left) q.push({y-1, n->left});
+            if(n->right) q.push({y+1, n->right});
+        }
+        
+        for(auto it : mp) res.push_back(it.second);
+        return res;   
+    }
+};
