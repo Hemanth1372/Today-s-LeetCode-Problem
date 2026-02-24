@@ -1,0 +1,47 @@
+  Given the root of a Binary Tree, your task is to return its Level Order Traversal.
+
+Note: A level order traversal is a breadth-first search (BFS) of the tree. It visits nodes level 
+by level, starting from the root, and processes all nodes from left to right within each level before moving to the next.
+
+
+/* A binary tree Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<vector<int>> levelOrder(Node *root) {
+        vector<vector<int>> res;
+        queue<Node*> q;
+        q.push(root);
+        
+        while(!q.empty()) {
+            int n=q.size();
+            vector<int> temp;
+            for(int i=0;i<n;i++) {
+                Node* node=q.front();
+                q.pop();
+                
+                temp.push_back(node->data);
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+            
+            res.push_back(temp);
+        }
+        
+        return res;
+    }
+};
