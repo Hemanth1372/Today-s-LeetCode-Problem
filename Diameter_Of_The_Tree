@@ -1,0 +1,38 @@
+Given the root of a binary tree, your task is to find the diameter of the binary tree.
+
+The diameter (also called the width) of a binary tree is defined as the number of edges on the 
+longest path between any two leaf nodes. Note that this path may or may not pass through the root of the tree.
+
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    
+    int d(Node* root, int &maxi) {
+        if(!root) return 0;
+        int lh = d(root->left, maxi);
+        int rh = d(root->right, maxi);
+        maxi = max(maxi, lh + rh);
+        return max(lh, rh) + 1;
+    }
+  
+    int diameter(Node* root) {
+        if(!root) return 0;
+        int maxi=-1;
+        d(root, maxi);
+        return maxi;
+    }
+};
