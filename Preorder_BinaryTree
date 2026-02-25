@@ -1,0 +1,36 @@
+Given the root of a binary tree, your task is to return its Preorder traversal.
+
+Note: A preorder traversal first visits the node, then visits the left child (including its entire subtree), 
+and finally visits the right child (including its entire subtree)
+
+
+/*
+class Node
+{
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void PreOrder(Node* root, vector<int> &preOrder) {
+        if(!root) return ;
+        preOrder.push_back(root->data);
+        PreOrder(root->left, preOrder);
+        PreOrder(root->right, preOrder);
+        return ;
+    }
+  
+    vector<int> preOrder(Node* root) {
+        vector<int> preOrder;
+        PreOrder(root, preOrder);
+        return preOrder;
+    }
+};
