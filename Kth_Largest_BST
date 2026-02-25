@@ -1,0 +1,35 @@
+Given a Binary Search Tree. Your task is to complete the function which will 
+return the kth largest element without doing any modification in the Binary Search Tree.
+
+
+/*The Node structure is defined as
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+// return the Kth largest element in the given BST rooted at 'root'
+class Solution {
+  public:
+    void inorder(Node* root, vector<int> &in) {
+        if(!root) return ;
+        inorder(root->left, in);
+        in.push_back(root->data);
+        inorder(root->right, in);
+        return ;
+    }
+  
+    int kthLargest(Node *root, int k) {
+       vector<int> in;
+       inorder(root, in);
+       int n=in.size();
+       return in[n-k];
+    }
+};
