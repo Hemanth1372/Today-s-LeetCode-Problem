@@ -1,0 +1,43 @@
+Given the root of a binary tree, determine whether the tree satisfies the Children Sum Property. 
+In this property, each non-leaf node must have a value equal to the sum of its left and right children's values. 
+A NULL child is considered to have a value of 0, and all leaf nodes are considered valid by default.
+Return true if every node in the tree satisfies this condition, otherwise return false.
+
+/*
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+  
+    bool isLeaf(Node* root) {
+        return root->left==NULL && root->right==NULL;
+    }
+    
+    int childSum(Node* root) {
+        if(!root) return 0;
+        if(isLeaf(root)) return root->data;
+        int lh=childSum(root->left);
+        int rh=childSum(root->right);
+        if(root->data == lh + rh) return root->data;
+        else return -1e9;
+    } 
+  
+    bool isSumProperty(Node *root) {
+        if(!root) return true;
+        return (childSum(root) == -1e9) ? false : true;
+    }
+};
