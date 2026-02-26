@@ -1,0 +1,43 @@
+Given two arrays representing the inorder and preorder traversals of a binary tree, your task is to construct the binary tree and return its root.
+
+Note: The inorder and preorder traversals contain unique values, and every value present in the preorder traversal is also found in the inorder traversal.
+
+
+/*
+class Node {
+public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int x) {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    
+    Node* build(vector<int> &preorder, int preStart, int preEnd, vector<int> &inorder, int inStart, int inEnd, 
+                    unordered_map<int, int> &mp) {
+        
+        if(preStart > preEnd || inStart > inEnd) return NULL;
+        int inRoot = mp[preorder[preStart]];
+        int numsLeft = inRoot - inStart;
+        Node* root = new Node(preorder[preStart]);
+        root->left = build(preorder, preStart+1, preStart+numsLeft, inorder, inStart, inRoot-1, mp);
+        root->right = build(preorder, preStart+numsLeft+1, preEnd, inorder, inRoot+1, inEnd, mp);
+        return root;
+    }
+  
+    Node *buildTree(vector<int> &inorder, vector<int> &preorder) {
+       unordered_map<int, int> mp;
+       int n=inorder.size();
+       for(int i=0;i<n;i++) mp[inorder[i]]=i;
+       Node* root = build(preorder, 0, n-1, inorder, 0, n-1, mp);
+       return root;
+    }
+};
