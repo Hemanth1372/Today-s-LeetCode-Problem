@@ -1,0 +1,36 @@
+Given a binary tree in which each node element contains a number. 
+Find the maximum possible path sum from one special node to another special node.
+
+Note: Here special node is a node that is connected to exactly one different node.
+
+class Solution {
+  public:
+    int maxPath(Node* root, int &maxi) {
+        if (!root) return 0;
+    
+        if (!root->left && !root->right)
+            return root->data;
+        
+        int lh = maxPath(root->left, maxi);
+        int rh = maxPath(root->right, maxi);
+        
+        if (root->left && root->right) {
+            maxi = max(maxi, lh + rh + root->data);
+            return max(lh, rh) + root->data;
+        }
+        
+        return (root->left ? lh : rh) + root->data;
+    }
+  
+    int maxPathSum(Node* root) {
+        if (!root) return 0;
+        
+        int maxi = INT_MIN;
+        int val = maxPath(root, maxi);
+        
+        if (!root->left || !root->right)
+            return max(maxi, val);
+        
+        return maxi;
+    }
+};
