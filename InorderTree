@@ -1,0 +1,36 @@
+Given a root of a Binary Tree, your task is to return its Inorder Traversal.
+
+Note: An inorder traversal first visits the left child (including its entire subtree), 
+then visits the node, and finally visits the right child (including its entire subtree).
+
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void inorder(Node* root, vector<int> &InOrder) {
+        if(!root) return ;
+        inorder(root->left, InOrder);
+        InOrder.push_back(root->data);
+        inorder(root->right, InOrder);
+        return ;
+    }
+  
+    vector<int> inOrder(Node* root) {
+        vector<int> InOrder;
+        inorder(root, InOrder);
+        return InOrder;
+    }
+};
